@@ -27,11 +27,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'image/gif',
             'video/mp4'
         );
+        $allowedExtensions = array(
+            'png',
+            'jpg',
+            'jpeg',
+            'gif',
+            'mp4'
+        );
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $fileMimeType = finfo_file($finfo, $_FILES["fileToUpload"]["tmp_name"]);
         finfo_close($finfo);
 
-        if (!in_array($fileMimeType, $allowedMimeTypes)) {
+        // Check if the file type is allowed
+        if (!in_array($fileMimeType, $allowedMimeTypes) || !in_array($fileType, $allowedExtensions)) {
             echo "Sorry, only PNG, JPG, JPEG, GIF, and MP4 files are allowed.";
             $uploadOk = 0;
         }
@@ -86,7 +94,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-?>                           
+?> 
+ 
 
 <!DOCTYPE html>
 <html lang="en">
